@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.Chat.App.MainPage">
+    <ContentPage.Content>
+        
+        <VerticalStackLayout Spacing="20" Padding="30,30">
+        
+            <Grid RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Server"></Label>
+                <Entry Grid.Column="1"  Placeholder="Server ip address"
+                       x:Name="ServerTextBox" TextColor="Black" BackgroundColor="White"
+                       TextChanged="OnTextChanged"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Key"></Label>
+                <Entry Grid.Row="1" Grid.Column="1" Placeholder="Encryption key"
+                       IsPassword="True" TextColor="Black" BackgroundColor="White"
+                       x:Name="EncryptionKeyTextBox" TextChanged="OnTextChanged" />
+                
+                <Label Grid.Row="2" Grid.Column="1" x:Name="ErrorsListView" TextColor="OrangeRed">
+                    
+                </Label>
+            </Grid>
+            
+            <Button Text="To chat" Clicked="Button_OnClicked"
+                    IsEnabled="False" x:Name="ToChatButton"></Button>
+            
+        </VerticalStackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>
