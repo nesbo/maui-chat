@@ -4,5 +4,6 @@ namespace Maui.Chat.Domain;
 
 public interface IChatMessageRepository
 {
-    Task SaveAsync(ChatMessage message, CancellationToken cancellationToken = default);
+    IReadOnlyCollection<ChatMessage> Messages { get; }
+    Task SaveAsync(ChatMessage message, CancellationToken cancellationToken);
 }
