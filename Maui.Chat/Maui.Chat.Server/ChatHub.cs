@@ -4,8 +4,8 @@ namespace Maui.Chat.Server;
 
 public class ChatHub : Hub
 {
-    public async Task SendToAll(string user, string message)
+    public async Task SendToAll(string message)
     {
-        await Clients.All.SendAsync("ReceiveMessage", user, message);
+        await Clients.All.SendAsync("ReceiveMessage", message);
     }
 }
