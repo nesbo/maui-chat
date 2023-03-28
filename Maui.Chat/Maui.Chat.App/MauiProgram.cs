@@ -1,5 +1,4 @@
-﻿using Maui.Chat.App.Repositories;
-using Maui.Chat.Domain;
+﻿using Maui.Chat.Domain;
 using Maui.Chat.Domain.Handlers;
 
 namespace Maui.Chat.App;
@@ -21,7 +20,7 @@ public static class MauiProgram
 
         return builder.Build();
     }
-    
+
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddScoped<ReceiveChatMessageCommandHandler>();
@@ -30,7 +29,5 @@ public static class MauiProgram
 
         services.AddSingleton<IChatMessageRepository, ChatMessageRepository>();
         services.AddSingleton<IChatMessageCrypto, ChatMessageCryptoAes>();
-
-        // register publisher
     }
 }

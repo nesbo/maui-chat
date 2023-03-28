@@ -5,33 +5,42 @@
              x:Class="Maui.Chat.App.ChatPage">
     <ContentPage.Content>
         
-        <ListView>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Frame
-                        BindingContext="{Binding Source={RelativeSource TemplatedParent}}"
-                        BackgroundColor="#0068FF"
-                        BorderColor="WhiteSmoke"
-                        CornerRadius="10"
-                        Padding="5"
-                        Margin="10">
-                        <Grid Padding="5" ColumnSpacing="5" RowSpacing="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="128"></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Sender}"
-                                   FontAttributes="Bold"
-                                   FontSize="1.5*"
-                                   TextColor="White"></Label>
-                            <Label Grid.Column="1" Text="{Binding Message}"
-                                   TextColor="White"></Label>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        <Grid RowDefinitions="*,100">
             
-        </ListView>
+            <ListView Grid.Row="0" x:Name="MessagesListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            BackgroundColor="#0068FF"
+                            BorderColor="WhiteSmoke"
+                            CornerRadius="10"
+                            Padding="5"
+                            Margin="10">
+                            <Grid Padding="5" ColumnSpacing="5" RowSpacing="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="128"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Sender}"
+                                       FontAttributes="Bold"
+                                       FontSize="1.5*"
+                                       TextColor="White"></Label>
+                                <Label Grid.Column="1" Text="{Binding Message}"
+                                       TextColor="White"></Label>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Grid ColumnDefinitions="*,100" ColumnSpacing="5" Padding="5">
+                <Entry Grid.Column="0" x:Name="MessageTextBox"></Entry>
+                <Button Grid.Column="1" Text="Send"
+                        Clicked="Button_OnClicked"
+                        Pressed="Button_OnClicked"></Button>
+            </Grid>
+            
+        </Grid>
         
     </ContentPage.Content>
 </ContentPage>

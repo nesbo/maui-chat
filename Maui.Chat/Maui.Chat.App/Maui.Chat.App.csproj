@@ -56,4 +56,9 @@
       <ProjectReference Include="..\Maui.Chat.Domain\Maui.Chat.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <EmbeddedResource Include="appsettings.json" />
+    </ItemGroup>
+
 </Project>

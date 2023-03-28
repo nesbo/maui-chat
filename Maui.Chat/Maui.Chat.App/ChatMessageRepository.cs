@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using Maui.Chat.Domain;
 using Maui.Chat.Domain.Models;
 
-namespace Maui.Chat.App.Repositories;
+namespace Maui.Chat.App;
 
 public class ChatMessageRepository : IChatMessageRepository
 {

@@ -1,28 +1,37 @@
 ﻿using System.Text.RegularExpressions;
+using Maui.Chat.Domain.Configuration;
 
 namespace Maui.Chat.App;
 
 public partial class MainPage : ContentPage
 {
-    private static readonly Regex _ipAddressRegex =
+    private readonly IServiceProvider _serviceProvider;
+
+    private static readonly Regex IpAddressRegex =
         new(
             @"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$",
             RegexOptions.Compiled);
 
-    public List<string> ErrorMessages = new()
+    private readonly List<string> _errorMessages = new()
     {
         "Enter server address",
         "Enter encryption key"
     };
 
-    public MainPage()
+    public MainPage(IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
         InitializeComponent();
     }
 
     private async void Button_OnClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ChatPage(), true);
+        var chatSettings = new ChatConfiguration(
+            "John Doe",
+            ServerTextBox.Text,
+            EncryptionKeyTextBox.Text);
+        
+        await Navigation.PushAsync(new ChatPage(_serviceProvider, chatSettings), true);
     }
 
     private void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -30,7 +39,7 @@ public partial class MainPage : ContentPage
         var serverText = ServerTextBox.Text;
         var encryptionKey = EncryptionKeyTextBox.Text;
 
-        ErrorMessages.Clear();
+        _errorMessages.Clear();
 
         var serverTextValid = ValidateServerText(serverText);
         var keyValid = ValidateEncryptionKey(encryptionKey);
@@ -38,7 +47,7 @@ public partial class MainPage : ContentPage
         ToChatButton.IsEnabled = serverTextValid && keyValid;
 
         var errorText = string.Concat(
-            ErrorMessages
+            _errorMessages
                 .Select(e => "• " + e + Environment.NewLine)
                 .ToArray());
 
@@ -50,13 +59,13 @@ public partial class MainPage : ContentPage
     {
         if (string.IsNullOrEmpty(encryptionKey))
         {
-            ErrorMessages.Add("Enter encryption key");
+            _errorMessages.Add("Enter encryption key");
             return false;
         }
 
         if (encryptionKey.Length >= 16) return true;
 
-        ErrorMessages.Add("Key min length 16 characters");
+        _errorMessages.Add("Key min length 16 characters");
         return false;
     }
 
@@ -64,13 +73,13 @@ public partial class MainPage : ContentPage
     {
         if (string.IsNullOrEmpty(serverText))
         {
-            ErrorMessages.Add("Enter server address");
+            _errorMessages.Add("Enter server address");
             return false;
         }
 
-        if (_ipAddressRegex.IsMatch(serverText)) return true;
+        if (IpAddressRegex.IsMatch(serverText)) return true;
 
-        ErrorMessages.Add("Not valid server address");
+        _errorMessages.Add("Not valid server address");
         return false;
     }
 }

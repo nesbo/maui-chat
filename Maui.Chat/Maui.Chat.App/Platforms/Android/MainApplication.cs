@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Maui.Chat.App;
+namespace Maui.Chat.App.Platforms.Android;
 
 [Application]
 public class MainApplication : MauiApplication
