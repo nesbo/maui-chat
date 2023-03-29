@@ -5,7 +5,7 @@ namespace Maui.Chat.Domain;
 
 public class ChatMessageCryptoAes : IChatMessageCrypto
 {
-    private const string Salt = "d357b157-0987-46cd-96f0-9a10fb0f41ca";
+    private const string Salt = "d357b157098746cd";
     private readonly Aes _aes = Aes.Create();
     
     public string Encrypt(string message, string key)

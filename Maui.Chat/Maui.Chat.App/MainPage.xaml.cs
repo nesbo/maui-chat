@@ -66,9 +66,9 @@ public partial class MainPage : ContentPage
             return false;
         }
 
-        if (encryptionKey.Length >= 16) return true;
+        if (encryptionKey.Length == 16) return true;
 
-        _errorMessages.Add("Key min length 16 characters");
+        _errorMessages.Add("Key length has to be 16 characters");
         return false;
     }
 

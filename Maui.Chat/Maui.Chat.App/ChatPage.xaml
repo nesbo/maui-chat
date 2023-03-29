@@ -5,9 +5,12 @@
              x:Class="Maui.Chat.App.ChatPage">
     <ContentPage.Content>
         
-        <Grid RowDefinitions="*,100">
+        <Grid RowDefinitions="48,*,48">
             
-            <ListView Grid.Row="0" x:Name="MessagesListView">
+            <Label Grid.Row="0" TextColor="OrangeRed"
+                   x:Name="ErrorLabel"></Label>
+            
+            <ListView Grid.Row="1" x:Name="MessagesListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Frame
@@ -32,7 +35,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             
-            <Grid ColumnDefinitions="*,100" ColumnSpacing="5" Padding="5">
+            <Grid Grid.Row="2" ColumnDefinitions="*,100" ColumnSpacing="5" Padding="5">
                 <Entry Grid.Column="0" x:Name="MessageTextBox"></Entry>
                 <Button Grid.Column="1" Text="Send"
                         Clicked="Button_OnClicked"

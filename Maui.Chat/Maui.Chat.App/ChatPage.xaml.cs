@@ -42,14 +42,13 @@ public partial class ChatPage : ContentPage
                 try
                 {
                     await _hubConnection.StartAsync();
+                    MessagesListView.ItemsSource = Messages;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    ErrorLabel.Text = e.Message;
                 }
             }));
-        
-        MessagesListView.ItemsSource = Messages;
     }
     
 
@@ -71,8 +70,15 @@ public partial class ChatPage : ContentPage
 
         var publisher = new SignalRChatMessagePublisher(_hubConnection);
 
-        await _sendMessageCommandHandler
-            .SendMessageAsync(command, default, publisher);
+        try
+        {
+            await _sendMessageCommandHandler
+                .SendMessageAsync(command, default, publisher);
+        }
+        catch (Exception e)
+        {
+            ErrorLabel.Text = e.Message;
+        }
     }
 
 
