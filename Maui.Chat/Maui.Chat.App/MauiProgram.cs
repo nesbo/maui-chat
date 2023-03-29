@@ -29,5 +29,8 @@ public static class MauiProgram
 
         services.AddSingleton<IChatMessageRepository, ChatMessageRepository>();
         services.AddSingleton<IChatMessageCrypto, ChatMessageCryptoAes>();
+        services.AddTransient<MainPage>();
+        services.AddSingleton<AppShell>();
+        services.AddTransient<ChatPage>();
     }
 }

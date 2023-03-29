@@ -31,7 +31,10 @@ public partial class MainPage : ContentPage
             ServerTextBox.Text,
             EncryptionKeyTextBox.Text);
         
-        await Navigation.PushAsync(new ChatPage(_serviceProvider, chatSettings), true);
+        var chatPage = _serviceProvider.GetRequiredService<ChatPage>();
+        chatPage.SetChatConfiguration(chatSettings);
+        
+        await Navigation.PushAsync(chatPage, true);
     }
 
     private void OnTextChanged(object sender, TextChangedEventArgs e)

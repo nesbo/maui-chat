@@ -23,7 +23,6 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Text="{Binding Sender}"
                                        FontAttributes="Bold"
-                                       FontSize="1.5*"
                                        TextColor="White"></Label>
                                 <Label Grid.Column="1" Text="{Binding Message}"
                                        TextColor="White"></Label>

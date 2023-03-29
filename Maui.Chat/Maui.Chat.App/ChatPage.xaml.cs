@@ -8,21 +8,28 @@ namespace Maui.Chat.App;
 
 public partial class ChatPage : ContentPage
 {
-    private readonly ChatConfiguration _chatConfiguration;
+    private ChatConfiguration _chatConfiguration;
     private readonly IChatMessageRepository _chatMessageRepository;
-    private readonly HubConnection _hubConnection;
+    private HubConnection _hubConnection;
     private readonly SendMessageCommandHandler _sendMessageCommandHandler;
     private readonly ReceiveChatMessageCommandHandler _receiveChatMessageCommandHandler;
 
-    public IEnumerable<ChatMessage> Messages => _chatMessageRepository.Messages;
+    private IEnumerable<ChatMessage> Messages => _chatMessageRepository.Messages;
 
-    public ChatPage(IServiceProvider serviceProvider, ChatConfiguration chatConfiguration)
+    public ChatPage(IChatMessageRepository chatMessageRepository,
+        SendMessageCommandHandler sendMessageCommandHandler,
+        ReceiveChatMessageCommandHandler receiveChatMessageCommandHandler)
+    {
+        _chatMessageRepository = chatMessageRepository;
+        _sendMessageCommandHandler = sendMessageCommandHandler;
+        _receiveChatMessageCommandHandler = receiveChatMessageCommandHandler;
+        
+        InitializeComponent();
+    }
+    public void SetChatConfiguration(ChatConfiguration chatConfiguration)
     {
         _chatConfiguration = chatConfiguration;
-        _chatMessageRepository = serviceProvider.GetRequiredService<IChatMessageRepository>();
-        _sendMessageCommandHandler = serviceProvider.GetRequiredService<SendMessageCommandHandler>();
-        _receiveChatMessageCommandHandler = serviceProvider.GetRequiredService<ReceiveChatMessageCommandHandler>();
-
+        
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(ServerConfiguration.GetUrl(chatConfiguration.Host))
             .Build();
@@ -30,12 +37,21 @@ public partial class ChatPage : ContentPage
         _hubConnection.On<string>("ReceiveMessage", ReceiveMessage);
 
         Task.Run(() =>
-            Dispatcher.Dispatch(async () => { await _hubConnection.StartAsync(); }));
-
-        InitializeComponent();
+            Dispatcher.Dispatch(async () =>
+            {
+                try
+                {
+                    await _hubConnection.StartAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }));
         
         MessagesListView.ItemsSource = Messages;
     }
+    
 
     private async void ReceiveMessage(string message)
     {
